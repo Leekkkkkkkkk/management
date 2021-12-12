@@ -82,11 +82,14 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(obj => {
+      this.$refs.loginForm.validate(async(obj) => {
         console.log(obj)
-        if (obj) {
-          this.$store.dispatch('user/login', this.loginForm)
-        }
+        if (!obj) return
+        this.loading = true
+        await this.$store.dispatch('user/login', this.loginForm)
+        this.loading = false
+        this.$router.push('/')
+        console.log(1)
       })
     }
   }

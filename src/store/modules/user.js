@@ -1,17 +1,22 @@
 import { login } from '@/api/user'
+import { setToken, getToken } from '@/utils/auth'
 const state = {
-  user: null
+  user: getToken()
 }
 const mutations = {
   setUser(state, payload) {
     state.user = payload
+    setToken(payload)
   }
 }
 const actions = {
   async login(contenxt, paylody) {
-    console.log('发送请求')
-    const res = await login(paylody)
-    console.log(res)
+    try {
+      const res = await login(paylody)
+      contenxt.commit('setUser', res)
+    } catch (error) {
+      console.dir(error)
+    }
   }
 }
 export default {
