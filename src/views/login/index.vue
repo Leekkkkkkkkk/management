@@ -1,11 +1,7 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
-      <div class="title-container">
-        <h3 class="title">Login Form</h3>
-      </div>
-
+      <img src="http://destiny001.gitee.io/admin-dist/img/logo.b5a855ee.png" class="title">
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -41,11 +37,9 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+      <div class="btn">
+        <el-button :loading="loading" type="primary" @click.native.prevent="handleLogin">登录</el-button>
+        <el-button :loading="loading" type="info" @click.native.prevent="handleLogin">重置</el-button>
       </div>
 
     </el-form>
@@ -53,45 +47,27 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, message: '输入用户名', trigger: 'blur' },
+          { min: 5, max: 5, message: '输入不合法', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 1, max: 10, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
       },
       loading: false,
       passwordType: 'password',
       redirect: undefined
-    }
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
     }
   },
   methods: {
@@ -106,18 +82,10 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
+      this.$refs.loginForm.validate(obj => {
+        console.log(obj)
+        if (obj) {
+          this.$store.dispatch('user/login', this.loginForm)
         }
       })
     }
@@ -130,7 +98,7 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
-$light_gray:#fff;
+$light_gray:#000;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -143,7 +111,8 @@ $cursor: #fff;
 .login-container {
   .el-input {
     display: inline-block;
-    height: 47px;
+    height: 40px;
+    line-height: 40px;
     width: 85%;
 
     input {
@@ -151,10 +120,11 @@ $cursor: #fff;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
-      padding: 12px 5px 12px 15px;
       color: $light_gray;
-      height: 47px;
+      height: 40px;
+      line-height: 40px;
       caret-color: $cursor;
+      caret-color: #000;
 
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px $bg inset !important;
@@ -164,32 +134,59 @@ $cursor: #fff;
   }
 
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
     border-radius: 5px;
-    color: #454545;
+    color: #000;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .el-form-item:hover {
+    border: 1px solid #0080ff;
   }
 }
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
+$bg:#2b4b6b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
+  position: relative;
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
 
   .login-form {
-    position: relative;
-    width: 520px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 450px;
+    height: 300px;
     max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
+    transform: translate(-50%,-50%);
+    padding: 110px 20px 0;
+    border-radius: 5px;
+    background-color: #fff;
+
+    .title {
+      width: 130px;
+      height: 130px;
+      background-color: #fff;
+      position: absolute;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ddd;
+      padding: 10px;
+      border: 1px solid #fff;
+      top: -25%;
+      left: 160px;
+    }
+
+    .btn {
+      float: right;
+    }
   }
 
   .tips {
@@ -205,7 +202,7 @@ $light_gray:#eee;
   }
 
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    padding-left: 15px;
     color: $dark_gray;
     vertical-align: middle;
     width: 30px;

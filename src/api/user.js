@@ -1,7 +1,16 @@
 import request from '@/utils/request'
 
-export function login() {
-  return request()
+/**
+ *登录
+ * @param {*} data{ username, password }
+ * @returns {} {id,rid,username,mobile,email,token}
+ */
+export function login(data) {
+  return request({
+    url: 'login',
+    method: 'POST',
+    data
+  })
 }
 
 export function getInfo() {
