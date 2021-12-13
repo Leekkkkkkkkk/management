@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
 import router from '@/router'
-import { getToken } from './auth'
+import { getTokenTime } from './auth'
 const timeOut = 2 * 60 * 60 * 1000
 // const timeOut = 5 * 1000
 const request = axios.create({
@@ -37,7 +37,7 @@ request.interceptors.response.use((res) => {
 })
 function isTimeOut() {
   const currentTime = Date.now()
-  const tokenTime = getToken()
+  const tokenTime = getTokenTime()
   const time = currentTime - tokenTime
   return time >= timeOut
 }

@@ -1,5 +1,5 @@
 import { login } from '@/api/user'
-import { setToken, getToken, removeToken } from '@/utils/auth'
+import { setToken, getToken, removeToken, setTokenTime } from '@/utils/auth'
 const state = {
   user: getToken(),
   userData: {}
@@ -21,6 +21,7 @@ const actions = {
   async login(contenxt, paylody) {
     try {
       const res = await login(paylody)
+      setTokenTime()
       contenxt.commit('setUserData', res)
       contenxt.commit('setUser', res.token)
     } catch (error) {

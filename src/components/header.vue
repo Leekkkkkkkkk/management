@@ -37,6 +37,9 @@ export default {
     background-color: #373d41;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    left: 0;
+    right: 0;
   }
   .el-aside{
     background-color: #373d41;
