@@ -1,19 +1,28 @@
 import { login } from '@/api/user'
-import { setToken, getToken } from '@/utils/auth'
+import { setToken, getToken, removeToken } from '@/utils/auth'
 const state = {
-  user: getToken()
+  user: getToken(),
+  userData: {}
 }
 const mutations = {
   setUser(state, payload) {
     state.user = payload
     setToken(payload)
+  },
+  setUserData(state, payload) {
+    state.userData = payload
+  },
+  removeUser(state, payload) {
+    state.user = null
+    removeToken()
   }
 }
 const actions = {
   async login(contenxt, paylody) {
     try {
       const res = await login(paylody)
-      contenxt.commit('setUser', res)
+      contenxt.commit('setUserData', res)
+      contenxt.commit('setUser', res.token)
     } catch (error) {
       console.dir(error)
     }

@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
+// import router from '@/router'
+// const timeOut = 2 * 60 * 60 * 1000
 const request = axios.create({
   baseURL: 'https://www.liulongbin.top:8888/api/private/v1/'
 })

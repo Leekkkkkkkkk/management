@@ -1,5 +1,6 @@
 <template>
   <section class="app-main">
+    <breadcrumb />
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
@@ -7,8 +8,10 @@
 </template>
 
 <script>
+import breadcrumb from '@/components/Breadcrumb'
 export default {
   name: 'AppMain',
+  components: { breadcrumb },
   computed: {
     key() {
       return this.$route.path

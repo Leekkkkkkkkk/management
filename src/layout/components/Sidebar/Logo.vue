@@ -2,18 +2,20 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 v-else class="sidebar-title">{{ title }} </h1>
+        <!-- <img v-if="logo" :src="logo" class="sidebar-logo"> -->
+        <h1 class="sidebar-title" @click="onClickSwitch"> | | |  </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 class="sidebar-title">{{ title }} </h1>
+        <!-- <img v-if="logo" :src="logo" class="sidebar-logo"> -->
+        <!-- <h1 class="sidebar-title">{{ title }} </h1> -->
+        <h1 class="sidebar-title" @click="onClickSwitch"> | | | </h1>
       </router-link>
     </transition>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -26,6 +28,12 @@ export default {
     return {
       title: 'Vue Admin Template',
       logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+    }
+  },
+  methods: {
+    ...mapGetters(['sidebar']),
+    onClickSwitch() {
+      this.$store.dispatch('app/toggleSideBar')
     }
   }
 }
@@ -65,6 +73,7 @@ export default {
       display: inline-block;
       margin: 0;
       color: #fff;
+      width: 100%;
       font-weight: 600;
       line-height: 50px;
       font-size: 14px;
