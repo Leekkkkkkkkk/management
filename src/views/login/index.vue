@@ -89,7 +89,6 @@ export default {
         await this.$store.dispatch('user/login', this.loginForm)
         this.loading = false
         this.$router.push('/')
-        console.log(1)
       })
     }
   }

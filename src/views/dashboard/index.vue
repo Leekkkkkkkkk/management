@@ -6,13 +6,25 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import { getMenus } from '@/api/permissions'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState: mapStateData } = createNamespacedHelpers('user')
 export default {
   name: 'Dashboard',
   computed: {
     ...mapGetters([
       'name'
-    ])
+    ]),
+    ...mapStateData(['user'])
+  },
+  created() {
+    this.getMenusData()
+  },
+  methods: {
+    async getMenusData() {
+      const res = await getMenus()
+      console.log(res)
+    }
   }
 }
 </script>

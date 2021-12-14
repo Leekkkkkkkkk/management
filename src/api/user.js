@@ -13,6 +13,19 @@ export function login(data) {
   })
 }
 
+/**
+ *用户数据列表
+ * @param {*} params {query,pagenum,pagesize}
+ * @returns
+ */
+export function getUsers(params) {
+  return request({
+    url: 'users',
+    method: 'GET',
+    params
+  })
+}
+
 export function getInfo() {
   return request()
 }

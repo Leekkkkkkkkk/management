@@ -22,8 +22,8 @@ const actions = {
     try {
       const res = await login(paylody)
       setTokenTime()
-      contenxt.commit('setUserData', res)
       contenxt.commit('setUser', res.token)
+      contenxt.commit('setUserData', res)
     } catch (error) {
       console.dir(error)
     }

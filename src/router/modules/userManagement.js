@@ -2,7 +2,7 @@ import Layout from '@/layout'
 export default {
   path: '/userManagement',
   component: Layout,
-  redirect: '/userManagement/users',
+  redirect: '/users',
   name: 'UserManagement',
   meta: {
     title: '用户管理',

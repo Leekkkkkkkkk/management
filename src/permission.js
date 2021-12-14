@@ -2,6 +2,7 @@ import router from '@/router'
 import store from '@/store'
 import { getTokenTime } from './utils/auth'
 const timeOut = 2 * 60 * 60 * 1000
+// const timeOut = 5 * 1000
 router.beforeEach((to, from, next) => {
   const token = store.state.user.user
   const toTrue = ['/login', '/404']
