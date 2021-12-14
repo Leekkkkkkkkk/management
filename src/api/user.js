@@ -26,6 +26,18 @@ export function getUsers(params) {
   })
 }
 
+/**
+ *添加用户
+ * @param {*} data {username,password,email,mobile}
+ * @returns
+ */
+export function addUser(data) {
+  return request({
+    url: 'users',
+    method: 'POST',
+    data
+  })
+}
 export function getInfo() {
   return request()
 }

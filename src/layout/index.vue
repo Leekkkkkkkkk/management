@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from './components'
+import { Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import Header from '@/components/header.vue'
 
@@ -24,7 +24,6 @@ export default {
   components: {
     Sidebar,
     AppMain,
-    Navbar,
     Header
   },
   mixins: [ResizeMixin],
