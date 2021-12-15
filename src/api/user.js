@@ -38,6 +38,30 @@ export function addUser(data) {
     data
   })
 }
+
+/**
+ *根据id查询用户信息
+ * @param {*} id {id}
+ * @returns
+ */
+export function InquireUser(id) {
+  return request({
+    url: 'users/' + id
+  })
+}
+
+/**
+ *编辑用户信息提交
+ * @param {*} id {id,email,mobile}
+ * @returns
+ */
+export function editUserSubmit(id, data) {
+  return request({
+    url: 'users/' + id,
+    method: 'PUT',
+    data
+  })
+}
 export function getInfo() {
   return request()
 }

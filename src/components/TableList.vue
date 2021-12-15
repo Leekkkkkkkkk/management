@@ -42,9 +42,8 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
-        <operation-edit />
-      </el-table-column>
+      <operation-edit @onEdit="onEdit" />
+      <!-- <el-table-column label="操作" width="200" /> -->
     </el-table>
   </div>
 </template>
@@ -70,7 +69,10 @@ export default {
   },
 
   methods: {
-
+    onEdit(obj) {
+      console.log('我是爸爸', obj)
+      this.$emit('onEdit', obj)
+    }
   }
 }
 </script>

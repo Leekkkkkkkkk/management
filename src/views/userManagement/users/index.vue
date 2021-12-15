@@ -6,7 +6,8 @@
       </el-input>
       <edit-info @editDialogVisible="dialogVisible=$event" />
     </div>
-    <table-list :table-item="tableData" />
+    <!-- 列表数据 -->
+    <table-list :table-item="tableData" @onEdit="onEdit" />
     <div class="block">
       <el-pagination
         :current-page="pagenum"
@@ -18,7 +19,10 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <users-dialog v-model="dialogVisible" />
+    <!-- //添加用户 -->
+    <users-dialog v-if="dialogVisible" v-model="dialogVisible" />
+    <!-- 修改用户信息 -->
+    <edit-user v-if="editUserShow" v-model="editUserShow" :user-info="userInfo" />
   </div>
 </template>
 
@@ -28,10 +32,11 @@ import { createNamespacedHelpers } from 'vuex'
 import editInfo from '@/components/editInfo.vue'
 import TableList from '@/components/TableList.vue'
 import UsersDialog from '../components/usersDialog.vue'
+import EditUser from '../components/editUser.vue'
 const { mapState: mapStateData } = createNamespacedHelpers('user')
 export default {
   name: 'Users',
-  components: { editInfo, TableList, UsersDialog },
+  components: { editInfo, TableList, UsersDialog, EditUser },
   data() {
     return {
       tableData: [],
@@ -43,7 +48,9 @@ export default {
       pagesize: 2,
       // 还有多少条
       total: 0,
-      dialogVisible: false
+      dialogVisible: false,
+      editUserShow: false,
+      userInfo: {}
     }
   },
   computed: {
@@ -76,6 +83,11 @@ export default {
     onSearchData() {
       this.getUsers()
       this.query = ''
+    },
+    onEdit(obj) {
+      console.log('我是爷爷', obj)
+      this.userInfo = obj
+      this.editUserShow = true
     }
   }
 }
