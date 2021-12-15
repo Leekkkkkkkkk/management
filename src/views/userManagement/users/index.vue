@@ -1,10 +1,10 @@
 <template>
   <div class="users">
     <div>
-      <el-input v-model="input" placeholder="请输入内容" class="input-with-select inputwidth " clearable>
-        <el-button slot="append" icon="el-icon-search" />
+      <el-input v-model="query" placeholder="请输入内容" class="input-with-select inputwidth " clearable>
+        <el-button slot="append" icon="el-icon-search" @click="onSearchData" />
       </el-input>
-      <edit-info />
+      <edit-info @editDialogVisible="dialogVisible=$event" />
     </div>
     <table-list :table-item="tableData" />
     <div class="block">
@@ -18,6 +18,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
+    <users-dialog v-model="dialogVisible" />
   </div>
 </template>
 
@@ -26,22 +27,23 @@ import { getUsers } from '@/api/user'
 import { createNamespacedHelpers } from 'vuex'
 import editInfo from '@/components/editInfo.vue'
 import TableList from '@/components/TableList.vue'
+import UsersDialog from '../components/usersDialog.vue'
 const { mapState: mapStateData } = createNamespacedHelpers('user')
 export default {
   name: 'Users',
-  components: { editInfo, TableList },
+  components: { editInfo, TableList, UsersDialog },
   data() {
     return {
       tableData: [],
-      value: true,
-      input: '',
+      query: '',
       // 要跳转的页面
       // 当前的页面
       pagenum: 1,
       // 每条显示的数据
-      pagesize: 5,
+      pagesize: 2,
       // 还有多少条
-      total: 0
+      total: 0,
+      dialogVisible: false
     }
   },
   computed: {
@@ -53,10 +55,11 @@ export default {
   methods: {
     async getUsers() {
       const res = await getUsers({
+        query: this.query,
         pagenum: this.pagenum,
         pagesize: this.pagesize
       })
-      const { users, pagenum, total } = res
+      const { users, pagenum, total } = res.data
       this.tableData = users
       this.total = total
       this.pagenum = pagenum
@@ -69,6 +72,10 @@ export default {
     handleCurrentChange(val) {
       this.pagenum = val
       this.getUsers()
+    },
+    onSearchData() {
+      this.getUsers()
+      this.query = ''
     }
   }
 }
