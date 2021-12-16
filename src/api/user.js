@@ -62,6 +62,41 @@ export function editUserSubmit(id, data) {
     data
   })
 }
+
+/**
+ *修改用户状态
+ * @param {*} id {id}
+ * @param {*} flag {true,flag}
+ * @returns
+ */
+export function ModifyUserStatus(id, flag) {
+  return request({
+    url: `users/${id}/state/${flag}`,
+    method: 'PUT'
+  })
+}
+export function DeleteIndividualUser(id) {
+  return request({
+    url: 'users/' + id,
+    method: 'DELETE'
+  })
+}
+
+/**
+ *分配角色
+ * @param {用户id} id
+ * @param {角色id} rid
+ * @returns
+ */
+export function AssignUserRoles(id, rid) {
+  return request({
+    url: `users/${id}/role`,
+    method: 'PUT',
+    data: {
+      rid
+    }
+  })
+}
 export function getInfo() {
   return request()
 }

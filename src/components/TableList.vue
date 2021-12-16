@@ -39,16 +39,18 @@
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.mg_state"
+            @change="EditStatus(scope.row,scope.row.mg_state)"
           />
         </template>
       </el-table-column>
-      <operation-edit @onEdit="onEdit" />
+      <operation-edit @onEdit="$emit('onEdit',$event)" @onDele="onDele" @onSett="$emit('onSett',$event)" />
       <!-- <el-table-column label="操作" width="200" /> -->
     </el-table>
   </div>
 </template>
 
 <script>
+import { ModifyUserStatus, DeleteIndividualUser } from '@/api/user'
 import OperationEdit from '@/views/userManagement/components/OperationEdit.vue'
 export default {
   components: { OperationEdit },
@@ -69,9 +71,34 @@ export default {
   },
 
   methods: {
-    onEdit(obj) {
-      console.log('我是爸爸', obj)
-      this.$emit('onEdit', obj)
+    async EditStatus(row, flag) {
+      try {
+        const res = await ModifyUserStatus(row.id, flag)
+        const { meta } = res
+        this.$message.success(meta.msg)
+      } catch (error) {
+        console.dir(error)
+      }
+    },
+    onDele(obj) {
+      console.log(obj)
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async() => {
+        await DeleteIndividualUser(obj.id)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+        this.getUsers()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
 }

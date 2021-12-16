@@ -7,7 +7,7 @@
       <edit-info @editDialogVisible="dialogVisible=$event" />
     </div>
     <!-- 列表数据 -->
-    <table-list :table-item="tableData" @onEdit="onEdit" />
+    <table-list :table-item="tableData" @onEdit="onEdit" @onSett="onSett" />
     <div class="block">
       <el-pagination
         :current-page="pagenum"
@@ -23,6 +23,8 @@
     <users-dialog v-if="dialogVisible" v-model="dialogVisible" />
     <!-- 修改用户信息 -->
     <edit-user v-if="editUserShow" v-model="editUserShow" :user-info="userInfo" />
+    <!-- 分配角色弹框 -->
+    <role-assignments v-if="RoleAssignmentsShow" v-model="RoleAssignmentsShow" :sett="sett" />
   </div>
 </template>
 
@@ -33,10 +35,11 @@ import editInfo from '@/components/editInfo.vue'
 import TableList from '@/components/TableList.vue'
 import UsersDialog from '../components/usersDialog.vue'
 import EditUser from '../components/editUser.vue'
+import RoleAssignments from '../components/RoleAssignments.vue'
 const { mapState: mapStateData } = createNamespacedHelpers('user')
 export default {
   name: 'Users',
-  components: { editInfo, TableList, UsersDialog, EditUser },
+  components: { editInfo, TableList, UsersDialog, EditUser, RoleAssignments },
   data() {
     return {
       tableData: [],
@@ -50,7 +53,9 @@ export default {
       total: 0,
       dialogVisible: false,
       editUserShow: false,
-      userInfo: {}
+      RoleAssignmentsShow: false,
+      userInfo: {},
+      sett: {}
     }
   },
   computed: {
@@ -85,9 +90,14 @@ export default {
       this.query = ''
     },
     onEdit(obj) {
-      console.log('我是爷爷', obj)
       this.userInfo = obj
       this.editUserShow = true
+    },
+    EditStatus() {},
+    onSett(obj) {
+      this.RoleAssignmentsShow = true
+      this.sett = obj
+      console.log(obj)
     }
   }
 }
