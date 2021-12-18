@@ -12,9 +12,10 @@ request.interceptors.request.use((config) => {
 })
 // 捕获返回值
 request.interceptors.response.use((res) => {
-  const { data } = res
-  const { meta } = res.data
+  const { data, meta } = res.data
+  // const { meta } = res.data
   if (meta.status === 200 || meta.status === 201 || meta.status === 204) {
+    Message.success(meta.msg)
     return data
   } else {
     Message.error(meta.msg)

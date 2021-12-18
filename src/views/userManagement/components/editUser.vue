@@ -69,12 +69,10 @@ export default {
         const id = this.userInfo.id
         const res = await InquireUser(id)
         console.log(res)
-        const { data, meta } = res
-        this.id = data.id
-        this.form.username = data.username
-        this.form.mobile = data.mobile
-        this.form.email = data.email
-        this.$message.success(meta.msg)
+        this.id = res.id
+        this.form.username = res.username
+        this.form.mobile = res.mobile
+        this.form.email = res.email
       } catch (error) {
         console.log(error)
       }

@@ -71,7 +71,7 @@ export default {
         pagenum: this.pagenum,
         pagesize: this.pagesize
       })
-      const { users, pagenum, total } = res.data
+      const { users, pagenum, total } = res
       this.tableData = users
       this.total = total
       this.pagenum = pagenum

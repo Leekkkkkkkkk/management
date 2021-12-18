@@ -52,9 +52,7 @@ export default {
     async getRolesList() {
       try {
         const res = await getRolesList()
-        const { meta, data } = res
-        this.options = data
-        this.$message.success(meta.msg)
+        this.options = res
         console.log(res)
       } catch (error) {
         console.dir(error)
@@ -62,9 +60,7 @@ export default {
     },
     async onSava() {
       try {
-        const res = await AssignUserRoles(this.sett.id, this.Default)
-        const { meta } = res
-        this.$message.success(meta.msg)
+        await AssignUserRoles(this.sett.id, this.Default)
         this.$emit('input', false)
       } catch (error) {
         console.dir(error)

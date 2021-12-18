@@ -74,8 +74,7 @@ export default {
     },
     async SendInfo() {
       try {
-        const res = await addUser(this.form)
-        this.$message.success(res.meta.msg)
+        await addUser(this.form)
         this.$emit('input', false)
       } catch (error) {
         console.dir(error)

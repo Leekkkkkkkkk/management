@@ -73,9 +73,7 @@ export default {
   methods: {
     async EditStatus(row, flag) {
       try {
-        const res = await ModifyUserStatus(row.id, flag)
-        const { meta } = res
-        this.$message.success(meta.msg)
+        await ModifyUserStatus(row.id, flag)
       } catch (error) {
         console.dir(error)
       }

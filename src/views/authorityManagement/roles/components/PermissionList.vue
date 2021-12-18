@@ -60,7 +60,7 @@ export default {
   methods: {
     async getlistPermissions() {
       const res = await listPermissions('tree')
-      this.data = res.data
+      this.data = res
       console.log(res)
       if (this.newArr.length !== 0) {
         this.setCheckedNodes()
@@ -84,9 +84,7 @@ export default {
     },
     async onSend() {
       try {
-        const res = await roleAuthorization(this.id, this.treeKeyId.join())
-        const { meta } = res
-        this.$message.success(meta.msg)
+        await roleAuthorization(this.id, this.treeKeyId.join())
         this.$emit('input', false)
         this.getlistPermissions()
       } catch (error) {

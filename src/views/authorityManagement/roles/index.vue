@@ -28,9 +28,7 @@ export default {
     async getRolesList() {
       try {
         const res = await getRolesList()
-        const { data, meta } = res
-        this.tableData = data
-        this.$message.success(meta.msg)
+        this.tableData = res
       } catch (error) {
         console.dir(error)
       }
