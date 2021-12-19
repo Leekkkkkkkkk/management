@@ -92,7 +92,6 @@ export default {
           cat_level: this.level + 1
         })
       }
-
       this.$emit('input', false)
     }
   }

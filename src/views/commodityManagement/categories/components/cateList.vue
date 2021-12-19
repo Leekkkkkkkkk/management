@@ -10,7 +10,12 @@
         label="#"
         type="index"
         width="60"
-      />
+      >
+        <template slot-scope="scope">
+
+          {{ scope.row.cat_level === 0 ? scope.$index+1 : '' }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="cat_name"
         label="分类名称"
