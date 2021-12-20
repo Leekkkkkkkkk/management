@@ -39,15 +39,16 @@
                   {{ item }}
                 </el-tag>
                 <el-input
-                  v-if="inputVisible"
+                  v-if="row.status"
+                  :key="row.cat_id"
                   ref="saveTagInput"
                   v-model="inputValue"
                   class="input-new-tag"
                   size="small"
                   style="width:100px"
-                  @blur="handleInputConfirm"
+                  @blur="handleInputConfirm(row)"
                 />
-                <el-button v-else class="button-new-tag" size="small" @click="showInput(row)">+ New Tag</el-button>
+                <el-button v-else :key="row.attr_id" class="button-new-tag" size="small" @click="showInput(row)">+ New Tag</el-button>
               </template>
             </el-table-column>
             <el-table-column
@@ -176,11 +177,14 @@ export default {
   },
 
   methods: {
+    // 获取节点
     handleChange(val) {
+      if (this.value.length !== 3) return
       const id = val[2]
       this.attributes.id = id
       this.handleClick()
     },
+    // 获取数据
     async handleClick() {
       if (this.attributes.id === '') return
       const res = await CategoriesList(this.attributes.id, this.attributes.sel)
@@ -190,43 +194,56 @@ export default {
           item.attr_vals = item.attr_vals.split(' ')
         }
       })
+      this.tableData.forEach(item => {
+        this.$set(item, 'status', false)
+      })
+      // this.$set(this.tableData, 'status', false)
     },
+    // 获取父节点
     async getCategoriesListData() {
       const res = await getCategoriesList()
       this.options = res
     },
     // 删除tags
     async handleClose(inx, obj) {
+      const pl = obj.attr_vals.indexOf(inx)
+      obj.attr_vals.splice(pl, 1)
       await editCategories({
         id: obj.cat_id,
         attrid: obj.attr_id,
         attr_name: obj.attr_name,
         attr_sel: obj.attr_sel,
-        attr_vals: obj.attr_vals.join('').replace(inx, '')
+        attr_vals: obj.attr_vals.join(' ')
       })
       this.handleClick()
     },
     showInput(obj) {
-      this.inputVisible = true
-      this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus()
-      })
+      obj.status = true
+      // this.inputVisible = true
+      // this.$nextTick(_ => {
+      //   this.$refs.saveTagInput.$refs.input.focus()
+      // })
       this.obj = obj
     },
-    // 添加tags
-    async  handleInputConfirm() {
+    // 添加tags 失去焦点
+    async  handleInputConfirm(obj) {
       console.log(this.obj)
       const inputValue = this.inputValue
-      await editCategories({
-        id: this.obj.cat_id,
-        attrid: this.obj.attr_id,
-        attr_name: this.obj.attr_name,
-        attr_sel: this.obj.attr_sel,
-        attr_vals: this.obj.attr_vals + '' + inputValue
-      })
-      this.handleClick()
-      this.inputVisible = false
+      if (inputValue === '') {
+        obj.status = false
+        return
+      } else {
+        await editCategories({
+          id: this.obj.cat_id,
+          attrid: this.obj.attr_id,
+          attr_name: this.obj.attr_name,
+          attr_sel: this.obj.attr_sel,
+          attr_vals: this.obj.attr_vals.join(' ') + ' ' + inputValue
+        })
+      }
+      obj.status = false
       this.inputValue = ''
+      this.handleClick()
     },
     async onSave() {
       if (this.form.attr_id) {
