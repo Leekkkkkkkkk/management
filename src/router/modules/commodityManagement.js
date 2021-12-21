@@ -16,7 +16,10 @@ export default {
       meta: {
         title: '商品列表',
         icon: 'nested'
-      }
+      },
+      children: [
+
+      ]
     },
     {
       path: 'params',
@@ -35,6 +38,11 @@ export default {
         title: '商品分类',
         icon: 'nested'
       }
+    },
+    {
+      path: 'add',
+      name: 'Add',
+      component: () => import('@/views/commodityManagement/goods/add')
     }
   ]
 }

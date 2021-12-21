@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 import store from '@/store'
 // const timeOut = 10 * 1000
 const request = axios.create({
-  baseURL: 'https://www.liulongbin.top:8888/api/private/v1/'
+  baseURL: 'https://www.liulongbin.top:8888/api/private/v1'
 })
 // 捕获发送请求
 request.interceptors.request.use((config) => {

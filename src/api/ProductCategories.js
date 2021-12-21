@@ -77,3 +77,29 @@ export function editCategories(data) {
     data
   })
 }
+
+/**
+ *商品数据列表
+ * @param {Object} params {query,pagenum,pagesize}
+ * @returns
+ */
+export function goodsList(params) {
+  return request({
+    url: `goods`,
+    method: 'GET',
+    params
+  })
+}
+
+/**
+ *添加商品
+ * @param {Object} data
+ * @returns
+ */
+export function addGoods(data) {
+  return request({
+    url: `goods`,
+    method: 'POST',
+    data
+  })
+}

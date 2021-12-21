@@ -9,6 +9,7 @@ import userManagement from './modules/userManagement'
 import authorityManagement from './modules/authorityManagement'
 import commodityManagement from './modules/commodityManagement'
 import orderManagement from './modules/orderManagement'
+import statistics from './modules/statistics'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -66,7 +67,8 @@ const varRoutes = [
   userManagement,
   authorityManagement,
   commodityManagement,
-  orderManagement
+  orderManagement,
+  statistics
 ]
 const createRouter = () => new Router({
   // mode: 'history', // require service support

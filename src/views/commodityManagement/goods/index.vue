@@ -2,10 +2,10 @@
   <div>
     <el-card class="box-card">
       <div>
-        <el-input v-model="query" placeholder="请输入内容" class="input-with-select inputwidth " clearable>
+        <el-input v-model="query.query" placeholder="请输入内容" class="input-with-select inputwidth " clearable>
           <el-button slot="append" icon="el-icon-search" @click="onSearchData" />
         </el-input>
-        <edit-info />
+        <edit-info @click.native="$router.push('add')" />
       </div>
       <el-table
         :data="tableData"
@@ -13,28 +13,47 @@
         border
       >
         <el-table-column
-          prop="date"
-          label="日期"
-          width="180"
+          type="index"
+          label="#"
+          width="50"
         />
         <el-table-column
-          prop="name"
-          label="姓名"
-          width="180"
+          prop="goods_name"
+          label="商品名称"
+          style="font-size:12px"
+          width="600"
         />
         <el-table-column
-          prop="address"
-          label="地址"
+          prop="goods_price"
+          label="商品价格"
         />
+        <el-table-column
+          prop="goods_weight"
+          label="商品重量"
+        />
+        <el-table-column
+          label="创建时间"
+        >
+          <template slot-scope="{ row }">
+            {{ row.upd_time | formatTime }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          width="180"
+        >
+          <el-button type="primary" size="mini" icon="el-icon-edit">编辑</el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete">删除</el-button>
+        </el-table-column>
       </el-table>
       <div class="block">
         <el-pagination
           background
           :current-page="currentPage"
           :page-sizes="[5, 10, 15, 20]"
-          :page-size="100"
+          :page-size="query.pagenum"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="total"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -45,48 +64,56 @@
 
 <script>
 import editInfo from '@/components/editInfo.vue'
+import { goodsList } from '@/api/ProductCategories'
 export default {
   components: { editInfo },
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
+      tableData: [],
       currentPage: 1,
-      query: ''
+      query: {
+        query: '',
+        pagenum: 1,
+        pagesize: 5
+      },
+      total: 0
     }
   },
 
   created() {
-
+    this.getGoodsList()
   },
 
   methods: {
-    handleSizeChange() {},
-    handleCurrentChange() {},
-    onSearchData() {}
+    // 多少一页
+    handleSizeChange(val) {
+      this.query.pagesize = val
+      this.getGoodsList()
+    },
+    // 页码
+    handleCurrentChange(val) {
+      this.query.pagenum = val
+      this.getGoodsList()
+    },
+    onSearchData() {},
+    // 获取商品数据列表
+    async getGoodsList() {
+      const res = await goodsList(this.query)
+      this.tableData = res.goods
+      this.total = res.total
+      console.log(res)
+    }
   }
 }
 </script>
 
-<style scoped lang='scss'>
+<style  lang='scss'>
 .inputwidth{
     width: 375px;
     height: 40px;
     margin: 20px 10px;
+  }
+  .el-table .cell{
+    font-size: 12px;
   }
 </style>
