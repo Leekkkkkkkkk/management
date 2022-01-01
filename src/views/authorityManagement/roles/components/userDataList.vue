@@ -65,9 +65,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async() => {
-        const res = await deleteroleAuthorization(id, ite.id)
-        const { meta } = res
-        this.$message.success(meta.msg)
+        await deleteroleAuthorization(id, ite.id)
+        this.$emit('on-success')
       }).catch(() => {
         this.$message({
           type: 'info',

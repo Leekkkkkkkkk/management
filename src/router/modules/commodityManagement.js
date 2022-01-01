@@ -40,9 +40,14 @@ export default {
       }
     },
     {
-      path: 'add',
+      path: 'goods/add',
       name: 'Add',
-      component: () => import('@/views/commodityManagement/goods/add')
+      component: () => import('@/views/commodityManagement/goods/add'),
+      meta: {
+        title: '商品添加',
+        icon: 'nested'
+      },
+      hidden: true
     }
   ]
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="Roles">
     <edit-info />
-    <user-data-list :table-data="tableData" @onSett="onSett" />
+    <user-data-list :table-data="tableData" @onSett="onSett" @on-success="getRolesList" />
     <permission-list v-if="PermissionListShow" :id="treeId" v-model="PermissionListShow" :new-arr="newArr" />
   </div>
 </template>

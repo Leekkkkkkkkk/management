@@ -5,7 +5,7 @@
         <el-input v-model="query.query" placeholder="请输入内容" class="input-with-select inputwidth " clearable>
           <el-button slot="append" icon="el-icon-search" @click="onSearchData" />
         </el-input>
-        <edit-info @click.native="$router.push('add')" />
+        <edit-info @click.native="$router.push('goods/add')" />
       </div>
       <el-table
         :data="tableData"

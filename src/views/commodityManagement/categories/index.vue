@@ -50,6 +50,12 @@ export default {
       const { total, result } = res
       this.total = total
       this.tableData = result
+      for (let i = 0; i < this.tableData.length; i++) {
+        this.tableData[i].index = i + 1
+      }
+      // this.tableData.forEach(item => {
+      //   this.$set(item,'index')
+      // })
     },
     handleSizeChange(ite) {
       this.pagesize = ite

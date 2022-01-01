@@ -6,20 +6,24 @@
       row-key="cat_id"
       border
     >
-      <el-table-column
-        label="#"
-        type="index"
-        width="60"
-      >
-        <template slot-scope="scope">
-
-          {{ scope.row.cat_level === 0 ? scope.$index+1 : '' }}
-        </template>
-      </el-table-column>
+      <template>
+        <el-table-column
+          label="#"
+          type="#"
+          width="50"
+        >
+          <template slot-scope="{row}">
+            {{ row.index }}
+          </template>
+        </el-table-column>
+      </template>
       <el-table-column
         prop="cat_name"
         label="分类名称"
         width="275"
+        :selection-type="false"
+        :expand-type="false"
+        show-index
       />
       <el-table-column
         prop="cat_deleted"
